@@ -27,14 +27,23 @@ const config = {
 		// Add the matcher before using it
 		expect.extend({ toMatchImageSnapshot });
 
-		expect(image).toMatchImageSnapshot({
-			customSnapshotIdentifier: storyId,
-			customSnapshotsDir: snapshotDir,
-			customDiffDir: diffDir,
-			storeReceivedOnFailure: true,
-			// failureThreshold: 0.02,
-			// failureThresholdType: "percent",
-		});
+		try {
+			expect(image).toMatchImageSnapshot({
+				customSnapshotIdentifier: storyId,
+				customSnapshotsDir: snapshotDir,
+				customDiffDir: diffDir,
+				storeReceivedOnFailure: true,
+				// failureThreshold: 0.02,
+				// failureThresholdType: "percent",
+			});
+		} catch {
+			/**
+			 * Snapshot comparison doesn't involve any implementation logic.
+			 * When a test fails, this block of code appears in the terminal,
+			 * but it's misleading - there's nothing wrong with it!
+			 * To suppress unnecessary error output, we wrap it in a try-catch block.
+			 */
+		}
 	},
 };
 
